@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ABES Hub — Official Event Platform | ABES Engineering College, Ghaziabad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#07091a;
+    --bg-2:#0d1129;
+    --bg-3:#141a3a;
+    --card:rgba(22,28,58,.65);
+    --card-solid:#161c3a;
+    --text:#eef1ff;
+    --muted:#9aa3c7;
+    --primary:#7c5cff;
+    --primary-2:#a78bfa;
+    --accent:#ff7a59;
+    --accent-2:#ffb199;
+    --success:#22d39a;
+    --danger:#ef4444;
+    --warning:#fbbf24;
+    --border:rgba(255,255,255,.08);
+    --border-2:rgba(255,255,255,.14);
+    --shadow:0 20px 50px rgba(0,0,0,.45);
+    --shadow-lg:0 30px 80px rgba(0,0,0,.6);
+    --radius:16px;
+    --radius-lg:24px;
+    --grad-primary:linear-gradient(135deg,#7c5cff 0%,#a78bfa 50%,#ff7a59 100%);
+    --grad-dark:linear-gradient(135deg,#07091a 0%,#1a1040 100%);
+  }
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Poppins',system-ui,-apple-system,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,select,textarea{font:inherit;color:inherit}
+  ::selection{background:var(--primary);color:#fff}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(var(--primary),var(--accent));border-radius:10px}
+
+  .progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--grad-primary);z-index:1000;box-shadow:0 0 10px rgba(124,92,255,.6);transition:width .1s}
+  .container{width:min(1240px,92%);margin:0 auto}
+  .section{padding:90px 0;position:relative}
+  .section-head{text-align:center;max-width:720px;margin:0 auto 60px}
+  .section-tag{
+    display:inline-block;padding:6px 16px;border-radius:999px;
+    background:rgba(124,92,255,.15);color:var(--primary-2);
+    font-size:.78rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+    margin-bottom:16px;border:1px solid rgba(124,92,255,.3);
+  }
+  .section-head h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:14px;letter-spacing:-.5px}
+  .section-head h2 .grad{background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .section-head p{color:var(--muted);font-size:1.05rem}
+
+  .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;transition:all .3s}
+  .nav.scrolled{background:rgba(7,9,26,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 0}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.3rem}
+  .logo-mark{
+    width:42px;height:42px;border-radius:12px;
+    background:var(--grad-primary);
+    display:grid;place-items:center;font-weight:900;color:#fff;font-size:.95rem;letter-spacing:-1px;
+    box-shadow:0 8px 24px rgba(124,92,255,.4);transition:transform .3s;
+  }
+  .logo:hover .logo-mark{transform:rotate(-8deg) scale(1.05)}
+  .logo-text{display:flex;flex-direction:column;line-height:1}
+  .logo-text .main{font-size:1.15rem}
+  .logo-text .sub{font-size:.65rem;color:var(--muted);font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+  .nav-links{display:flex;gap:4px;align-items:center}
+  .nav-links a{padding:10px 16px;border-radius:10px;color:var(--muted);font-weight:500;font-size:.95rem;transition:all .2s;position:relative}
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+  .nav-links a.active{color:#fff}
+  .nav-links a.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:20px;height:2px;border-radius:2px;background:var(--grad-primary)}
+  .admin-btn{padding:10px 20px;border-radius:10px;font-weight:600;font-size:.92rem;background:var(--grad-primary);color:#fff;box-shadow:0 8px 22px rgba(124,92,255,.35);transition:all .2s}
+  .admin-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(124,92,255,.5)}
+  .hamburger{display:none;font-size:1.5rem;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.05)}
+
+  .hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:120px 0 80px;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:0;
+    background:
+      radial-gradient(800px 500px at 20% 30%,rgba(124,92,255,.25),transparent 60%),
+      radial-gradient(700px 400px at 80% 70%,rgba(255,122,89,.2),transparent 60%),
+      url('https://images.unsplash.com/photo-1562774053-701939fc7185?w=1920&q=80') center/cover;
+    filter:brightness(.35) saturate(1.2);
+  }
+  .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,var(--bg) 100%)}
+  .hero-content{position:relative;z-index:2;text-align:center;max-width:900px;margin:0 auto}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--border-2);backdrop-filter:blur(10px);font-size:.85rem;font-weight:500;margin-bottom:24px;animation:fadeUp .8s ease both}
+  .hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 10px var(--success);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .hero h1{font-family:'Space Grotesk','Poppins',sans-serif;font-size:clamp(2.4rem,6vw,4.8rem);font-weight:700;line-height:1.05;margin-bottom:22px;letter-spacing:-2px;animation:fadeUp .8s .1s ease both}
+  .hero h1 .grad{background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+  .typing{display:inline-block;border-right:3px solid var(--primary-2);padding-right:4px;animation:blink 1s infinite}
+  @keyframes blink{50%{border-color:transparent}}
+  .hero p{color:rgba(238,241,255,.8);font-size:clamp(1rem,1.5vw,1.2rem);max-width:640px;margin:0 auto 36px;animation:fadeUp .8s .2s ease both}
+  .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  .btn{padding:14px 28px;border-radius:12px;font-weight:600;font-size:.95rem;transition:all .25s;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden}
+  .btn-primary{background:var(--grad-primary);color:#fff;box-shadow:0 10px 28px rgba(124,92,255,.4)}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(124,92,255,.55)}
+  .btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--border-2);backdrop-filter:blur(10px)}
+  .btn-ghost:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+  .btn-danger{background:var(--danger);color:#fff}
+  .btn-success{background:var(--success);color:#fff}
+  .btn-sm{padding:9px 16px;font-size:.85rem;border-radius:10px}
+  .hero-stats{display:flex;justify-content:center;gap:50px;margin-top:60px;flex-wrap:wrap;animation:fadeUp .8s .4s ease both}
+  .hero-stat{text-align:center}
+  .hero-stat-num{font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-stat-label{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:1px}
+
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .about-imgs{position:relative;height:500px}
+  .about-imgs img{position:absolute;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);object-fit:cover;transition:transform .4s}
+  .about-imgs img:hover{transform:scale(1.03)}
+  .about-imgs img:nth-child(1){width:65%;height:70%;top:0;left:0;z-index:2}
+  .about-imgs img:nth-child(2){width:55%;height:55%;bottom:0;right:0;z-index:3;border:4px solid var(--bg)}
+  .about-imgs img:nth-child(3){width:35%;height:35%;top:10%;right:5%;z-index:4;border:4px solid var(--bg)}
+  .about-text h3{font-size:1.8rem;font-weight:700;margin-bottom:18px;line-height:1.2}
+  .about-text p{color:var(--muted);margin-bottom:18px;font-size:1.02rem}
+  .about-features{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+  .about-feat{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:all .25s}
+  .about-feat:hover{border-color:var(--primary);transform:translateY(-3px)}
+  .about-feat-icon{width:40px;height:40px;border-radius:10px;flex-shrink:0;background:rgba(124,92,255,.15);color:var(--primary-2);display:grid;place-items:center;font-size:1.2rem}
+  .about-feat h4{font-size:.95rem;font-weight:600;margin-bottom:2px}
+  .about-feat p{color:var(--muted);font-size:.82rem;margin:0}
+
+  .featured-wrap{position:relative;border-radius:var(--radius-lg);overflow:hidden;min-height:480px;display:grid;grid-template-columns:1.1fr 1fr;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow-lg)}
+  .featured-img{position:relative;overflow:hidden;background-size:cover;background-position:center}
+  .featured-img::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(7,9,26,.3))}
+  .featured-body{padding:50px;display:flex;flex-direction:column;justify-content:center}
+  .featured-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;background:rgba(255,122,89,.15);color:var(--accent);font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px;width:fit-content}
+  .featured-body h3{font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;line-height:1.1;margin-bottom:14px;letter-spacing:-.5px}
+  .featured-meta{display:flex;flex-wrap:wrap;gap:18px;margin:18px 0;color:var(--muted);font-size:.92rem}
+  .featured-meta span{display:inline-flex;align-items:center;gap:6px}
+  .featured-body > p{color:rgba(238,241,255,.75);margin-bottom:24px}
+  .countdown{display:flex;gap:10px;margin-bottom:26px;flex-wrap:wrap}
+  .cd-box{flex:1;min-width:70px;padding:14px 10px;text-align:center;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;backdrop-filter:blur(10px)}
+  .cd-num{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;line-height:1}
+  .cd-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+  .filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px;background:var(--card);padding:16px;border-radius:var(--radius);border:1px solid var(--border);backdrop-filter:blur(10px)}
+  .filters input,.filters select{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;outline:none;min-width:200px;transition:all .2s}
+  .filters input:focus,.filters select:focus{border-color:var(--primary);background:rgba(255,255,255,.06)}
+  .filters input{flex:1}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;backdrop-filter:blur(10px);position:relative}
+  .card:hover{transform:translateY(-8px);border-color:rgba(124,92,255,.4);box-shadow:var(--shadow-lg)}
+  .card-img{aspect-ratio:16/10;position:relative;overflow:hidden}
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .card:hover .card-img img{transform:scale(1.08)}
+  .card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(7,9,26,.8) 100%)}
+  .card-cat{position:absolute;top:14px;left:14px;z-index:2;padding:5px 12px;border-radius:999px;background:rgba(7,9,26,.7);backdrop-filter:blur(10px);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border:1px solid var(--border-2)}
+  .card-like{position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(7,9,26,.7);backdrop-filter:blur(10px);display:grid;place-items:center;font-size:1.1rem;border:1px solid var(--border-2);transition:all .2s}
+  .card-like:hover{background:rgba(255,122,89,.3);transform:scale(1.1)}
+  .card-like.liked{background:var(--accent);color:#fff}
+  .card-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .card-title{font-size:1.2rem;font-weight:700;line-height:1.3}
+  .card-desc{color:var(--muted);font-size:.9rem;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card-meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.82rem;margin-top:4px;padding-top:12px;border-top:1px solid var(--border)}
+  .card-meta span{display:inline-flex;align-items:center;gap:5px}
+  .card-actions{display:flex;gap:8px;margin-top:8px}
+
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;gap:14px}
+  .gallery-item{position:relative;overflow:hidden;border-radius:var(--radius);cursor:pointer;transition:transform .3s}
+  .gallery-item:hover{transform:scale(1.02)}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .gallery-item:hover img{transform:scale(1.1)}
+  .gallery-item::after{content:'🔍';position:absolute;inset:0;background:rgba(124,92,255,.4);display:grid;place-items:center;font-size:2rem;opacity:0;transition:opacity .3s}
+  .gallery-item:hover::after{opacity:1}
+  .gallery-item:nth-child(1){grid-column:span 2;grid-row:span 2}
+  .gallery-item:nth-child(4){grid-row:span 2}
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:200;display:none;align-items:center;justify-content:center;padding:40px}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:90%;max-height:90vh;border-radius:12px;box-shadow:var(--shadow-lg)}
+  .lightbox-close{position:absolute;top:20px;right:20px;font-size:2rem;color:#fff;padding:10px 16px;border-radius:10px;background:rgba(255,255,255,.1)}
+  .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);font-size:2rem;color:#fff;padding:14px 18px;border-radius:50%;background:rgba(255,255,255,.1);backdrop-filter:blur(10px)}
+  .lightbox-prev{left:20px}
+  .lightbox-next{right:20px}
+
+  .testi-wrap{position:relative;max-width:800px;margin:0 auto}
+  .testi-track{overflow:hidden;border-radius:var(--radius-lg)}
+  .testi-slides{display:flex;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .testi-slide{min-width:100%;padding:40px;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg)}
+  .testi-quote{font-size:1.2rem;line-height:1.6;color:rgba(238,241,255,.9);margin-bottom:24px;font-style:italic}
+  .testi-quote::before{content:'"';font-size:4rem;color:var(--primary);line-height:0;vertical-align:-20px;margin-right:4px;font-family:Georgia,serif}
+  .testi-author{display:flex;align-items:center;justify-content:center;gap:14px}
+  .testi-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid var(--primary)}
+  .testi-name{font-weight:700}
+  .testi-role{color:var(--muted);font-size:.85rem}
+  .testi-dots{display:flex;justify-content:center;gap:8px;margin-top:24px}
+  .testi-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s}
+  .testi-dot.active{background:var(--primary);width:28px;border-radius:5px}
+
+  .newsletter{background:linear-gradient(135deg,rgba(124,92,255,.15),rgba(255,122,89,.1));border:1px solid var(--border);border-radius:var(--radius-lg);padding:60px 40px;text-align:center;position:relative;overflow:hidden}
+  .newsletter::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&q=80') center/cover;opacity:.08}
+  .newsletter > *{position:relative;z-index:1}
+  .newsletter h3{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;margin-bottom:12px}
+  .newsletter p{color:var(--muted);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto}
+  .newsletter-form{display:flex;gap:10px;max-width:480px;margin:0 auto;flex-wrap:wrap}
+  .newsletter-form input{flex:1;min-width:200px;padding:14px 18px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid var(--border-2);color:#fff;outline:none}
+  .newsletter-form input:focus{border-color:var(--primary)}
+
+  .faq-list{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  .faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .25s}
+  .faq-item.open{border-color:var(--primary)}
+  .faq-q{padding:18px 22px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:600;font-size:1rem}
+  .faq-q .arrow{transition:transform .3s;color:var(--primary-2);font-size:1.2rem}
+  .faq-item.open .arrow{transform:rotate(180deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--muted);padding:0 22px}
+  .faq-item.open .faq-a{max-height:300px;padding:0 22px 20px}
+
+  footer{background:var(--bg-2);border-top:1px solid var(--border);padding:70px 0 30px;margin-top:60px}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+  .footer-col h5{font-size:.95rem;font-weight:700;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px}
+  .footer-col p,.footer-col a{color:var(--muted);font-size:.9rem;line-height:1.8;display:block;transition:color .2s}
+  .footer-col a:hover{color:var(--primary-2)}
+  .footer-socials{display:flex;gap:10px;margin-top:16px}
+  .footer-socials a{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:1rem;transition:all .2s}
+  .footer-socials a:hover{background:var(--grad-primary);color:#fff;transform:translateY(-3px)}
+  .footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;color:var(--muted);font-size:.85rem}
+
+  .to-top{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--grad-primary);color:#fff;display:grid;place-items:center;font-size:1.2rem;box-shadow:0 10px 28px rgba(124,92,255,.4);opacity:0;pointer-events:none;transition:all .3s;z-index:50}
+  .to-top.show{opacity:1;pointer-events:auto}
+  .to-top:hover{transform:translateY(-4px)}
+
+  .modal-backdrop{position:fixed;inset:0;background:rgba(5,8,20,.8);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:150;padding:20px}
+  .modal-backdrop.open{display:flex;animation:fadeIn .2s}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .modal{background:var(--bg-2);border:1px solid var(--border);border-radius:20px;width:min(560px,100%);max-height:90vh;overflow:auto;box-shadow:var(--shadow-lg);animation:pop .3s cubic-bezier(.2,.8,.2,1)}
+  @keyframes pop{from{transform:scale(.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+  .modal-header{padding:22px 26px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(124,92,255,.1),transparent)}
+  .modal-header h3{font-size:1.25rem;font-weight:700}
+  .modal-close{font-size:1.4rem;color:var(--muted);padding:6px 12px;border-radius:8px}
+  .modal-close:hover{background:rgba(255,255,255,.06);color:#fff}
+  .modal-body{padding:26px}
+  .form-group{margin-bottom:16px}
+  .form-group label{display:block;font-size:.85rem;font-weight:600;margin-bottom:8px;color:var(--muted)}
+  .form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;outline:none;transition:all .2s}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--primary);background:rgba(255,255,255,.06)}
+  .form-group textarea{resize:vertical;min-height:90px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+
+  .admin-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+  .admin-tabs button{padding:11px 20px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--muted);font-weight:600;transition:all .2s}
+  .admin-tabs button.active{background:var(--grad-primary);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(124,92,255,.3)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:30px}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;backdrop-filter:blur(10px);position:relative;overflow:hidden}
+  .stat::before{content:'';position:absolute;top:0;right:0;width:80px;height:80px;background:var(--grad-primary);opacity:.08;border-radius:50%;transform:translate(30%,-30%)}
+  .stat-label{color:var(--muted);font-size:.85rem;margin-bottom:8px}
+  .stat-value{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700}
+  .stat-value.accent{background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;color:transparent}
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+  th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:.9rem}
+  th{background:var(--bg-3);font-weight:700;color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.8px}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  .table-wrap{overflow-x:auto;border-radius:var(--radius)}
+  .badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:700;background:rgba(124,92,255,.2);color:var(--primary-2)}
+
+  .toast-wrap{position:fixed;top:80px;right:20px;z-index:300;display:flex;flex-direction:column;gap:10px}
+  .toast{background:var(--card-solid);border:1px solid var(--border);border-left:4px solid var(--success);padding:14px 20px;border-radius:12px;min-width:260px;box-shadow:var(--shadow-lg);animation:slideIn .3s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;gap:10px;font-weight:500}
+  .toast.error{border-left-color:var(--danger)}
+  .toast-icon{font-size:1.3rem}
+  @keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+  .empty{text-align:center;padding:60px 20px;color:var(--muted);background:var(--card);border:1px dashed var(--border);border-radius:var(--radius);grid-column:1/-1}
+  .empty-icon{font-size:3.5rem;margin-bottom:14px;opacity:.5}
+  .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  @media (max-width:960px){
+    .about-grid{grid-template-columns:1fr;gap:40px}
+    .about-imgs{height:400px}
+    .featured-wrap{grid-template-columns:1fr}
+    .featured-img{min-height:280px}
+    .featured-body{padding:30px}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:30px}
+    .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
+  }
+  @media (max-width:720px){
+    .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg-2);flex-direction:column;padding:14px;border-bottom:1px solid var(--border);gap:4px;align-items:stretch;border-top:1px solid var(--border)}
+    .nav-links.open{display:flex}
+    .nav-links a{text-align:left}
+    .hamburger{display:block}
+    .section{padding:60px 0}
+    .hero{padding:100px 0 60px;min-height:auto}
+    .hero-stats{gap:30px;margin-top:40px}
+    .hero-stat-num{font-size:1.8rem}
+    .about-features{grid-template-columns:1fr}
+    .form-row{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr}
+    .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:140px}
+    .gallery-item:nth-child(1){grid-column:span 2;grid-row:span 1}
+    .gallery-item:nth-child(4){grid-row:span 1}
+    .newsletter{padding:40px 24px}
+    .logo-text .sub{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo" onclick="showView('home');return false;">
+      <div class="logo-mark">AB</div>
+      <div class="logo-text">
+        <span class="main">ABES Hub</span>
+        <span class="sub">ABES Engineering College</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" data-view="home" class="active">Home</a>
+      <a href="#about" data-scroll="about">About</a>
+      <a href="#events" data-view="events">Events</a>
+      <a href="#clubs" data-scroll="clubs">Clubs</a>
+      <a href="#gallery" data-scroll="gallery">Gallery</a>
+      <a href="#faq" data-scroll="faq">FAQ</a>
+      <button class="admin-btn" id="adminBtn">🔐 Admin</button>
+    </div>
+  </div>
+</nav>
+
+<div id="view-home">
+
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <div class="hero-badge"><span class="dot"></span> ABES Engineering College · Ghaziabad · AKTU Affiliated</div>
+      <h1>The Heartbeat of <br><span class="grad typing" id="typingText">ABES Campus</span></h1>
+      <p>Your official gateway to every event, fest, workshop, and competition at ABES Engineering College — from Aarohan to hackathons, all in one place.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="scrollToId('events')">🎟️ Explore Events</button>
+        <button class="btn btn-ghost" onclick="scrollToId('about')">Discover ABES →</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num" data-count="25">0</div><div class="hero-stat-label">Events / Year</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" data-count="6000">0</div><div class="hero-stat-label">ABESians</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" data-count="18">0</div><div class="hero-stat-label">Active Clubs</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" data-count="8">0</div><div class="hero-stat-label">Departments</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-imgs reveal">
+          <img src="https://images.unsplash.com/photo-1562774053-701939fc7185?w=800&q=80" alt="ABES Campus"/>
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80" alt="ABES Event"/>
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&q=80" alt="ABES Students"/>
+        </div>
+        <div class="about-text reveal">
+          <span class="section-tag">About ABES Hub</span>
+          <h3>Where <span style="background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;color:transparent">ABESians</span> come together</h3>
+          <p>ABES Hub is the official digital platform of <strong>ABES Engineering College, Ghaziabad</strong> — a premier institute affiliated to Dr. A.P.J. Abdul Kalam Technical University (AKTU), Lucknow.</p>
+          <p>From the vibrant corridors of our CSE, IT, ECE, EE, ME, and CE departments to the energy of Aarohan — our annual techno-cultural fest — we bring every moment of campus life to your fingertips.</p>
+          <div class="about-features">
+            <div class="about-feat"><div class="about-feat-icon">🎓</div><div><h4>AKTU Affiliated</h4><p>Recognized excellence</p></div></div>
+            <div class="about-feat"><div class="about-feat-icon">🏆</div><div><h4>Aarohan Fest</h4><p>Annual techno-cultural</p></div></div>
+            <div class="about-feat"><div class="about-feat-icon">💻</div><div><h4>18+ Clubs</h4><p>IEEE, CodeChef, E-Cell</p></div></div>
+            <div class="about-feat"><div class="about-feat-icon">🌟</div><div><h4>NAAC Accredited</h4><p>Quality education</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="featured">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">⭐ Spotlight</span>
+        <h2>Don't miss <span class="grad">Aarohan 2026</span></h2>
+        <p>ABES's flagship annual techno-cultural fest — three days of innovation, art, and unforgettable memories</p>
+      </div>
+      <div id="featuredBox" class="reveal"></div>
+    </div>
+  </section>
+
+  <section class="section" id="events">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">🔥 What's On</span>
+        <h2>Upcoming <span class="grad">Events</span></h2>
+        <p>From department workshops to inter-college fests — find your next experience</p>
+      </div>
+      <div class="filters reveal">
+        <input type="text" id="searchInput" placeholder="🔍 Search events by name or description..."/>
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option>Technical</option>
+          <option>Cultural</option>
+          <option>Sports</option>
+          <option>Workshop</option>
+          <option>Seminar</option>
+        </select>
+      </div>
+      <div id="allEventsBox" class="grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="clubs">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">🎯 Our Communities</span>
+        <h2>Student <span class="grad">Clubs at ABES</span></h2>
+        <p>Join a community that matches your passion — there's a club for everyone</p>
+      </div>
+      <div class="grid" id="clubsGrid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))"></div>
+    </div>
+  </section>
+
+  <section class="section" id="gallery">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">📸 Memories</span>
+        <h2>Moments from <span class="grad">ABES events</span></h2>
+        <p>A glimpse into the energy, passion, and pride of the ABESian community</p>
+      </div>
+      <div class="gallery reveal" id="galleryGrid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="testimonials">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">💬 Voices</span>
+        <h2>What <span class="grad">ABESians</span> are saying</h2>
+        <p>Real stories from students across departments</p>
+      </div>
+      <div class="testi-wrap reveal">
+        <div class="testi-track"><div class="testi-slides" id="testiSlides"></div></div>
+        <div class="testi-dots" id="testiDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">❓ Questions</span>
+        <h2>Frequently <span class="grad">asked</span></h2>
+        <p>Everything an ABESian needs to know</p>
+      </div>
+      <div class="faq-list reveal" id="faqList"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="newsletter reveal">
+        <span class="section-tag">📬 Stay Updated</span>
+        <h3>Never miss an ABES event again</h3>
+        <p>Subscribe with your college email and be the first to know about Aarohan, workshops, hackathons, and more.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="your.name@abes.ac.in" required/>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div id="view-admin" style="display:none;padding-top:100px">
+  <section class="section" style="padding-top:20px">
+    <div class="container">
+      <div class="section-head" style="text-align:left;margin-bottom:30px">
+        <span class="section-tag">🛠 Dashboard</span>
+        <h2 style="font-size:2rem">Admin <span class="grad">Control Panel</span></h2>
+        <p>Manage ABES Hub events and registrations</p>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:20px">
+        <button class="btn btn-ghost btn-sm" id="logoutBtn">← Back to Site</button>
+      </div>
+      <div class="stats" id="statsBox"></div>
+      <div class="admin-tabs">
+        <button data-tab="events" class="active">📅 Events</button>
+        <button data-tab="registrations">👥 Registrations</button>
+      </div>
+      <div id="tab-events">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+          <h3 style="font-size:1.3rem;font-weight:700">All Events</h3>
+          <button class="btn btn-primary btn-sm" id="addEventBtn">+ Add Event</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Date</th><th>Venue</th><th>Category</th><th>Regs</th><th>Actions</th></tr></thead>
+            <tbody id="adminEventsBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="tab-registrations" style="display:none">
+        <div class="filters" style="margin-bottom:18px">
+          <input type="text" id="regSearch" placeholder="🔍 Search by name, email, department..."/>
+          <select id="regEventFilter"><option value="">All Events</option></select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Dept / Year</th><th>Event</th><th>Registered</th></tr></thead>
+            <tbody id="adminRegsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="modal-backdrop" id="regModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="regModalTitle">Register for Event</h3>
+      <button class="modal-close" data-close>✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="regForm">
+        <input type="hidden" id="regEventId"/>
+        <div class="form-group"><label>Full Name *</label><input type="text" id="regName" required/></div>
+        <div class="form-row">
+          <div class="form-group"><label>ABES Email *</label><input type="email" id="regEmail" placeholder="name@abes.ac.in" required/></div>
+          <div class="form-group"><label>Phone *</label><input type="tel" id="regPhone" required pattern="[0-9+\-\s]{7,}"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Department *</label>
+            <select id="regDept" required>
+              <option value="">Select...</option>
+              <option>CSE</option><option>IT</option><option>ECE</option><option>EE</option>
+              <option>ME</option><option>CE</option><option>MBA</option><option>MCA</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Year *</label>
+            <select id="regYear" required>
+              <option value="">Select...</option>
+              <option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Roll Number *</label><input type="text" id="regRoll" placeholder="e.g. 220305" required/></div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="loginModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🔐 Admin Login</h3>
+      <button class="modal-close" data-close>✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="loginForm">
+        <div class="form-group"><label>Username</label><input type="text" id="loginUser" value="admin" required/></div>
+        <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="Hint: abes2026" required/></div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="eventModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="eventModalTitle">Add New Event</h3>
+      <button class="modal-close" data-close>✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="eventForm">
+        <input type="hidden" id="eventId"/>
+        <div class="form-group"><label>Event Name *</label><input type="text" id="eventName" required/></div>
+        <div class="form-row">
+          <div class="form-group"><label>Date *</label><input type="date" id="eventDate" required/></div>
+          <div class="form-group"><label>Time *</label><input type="time" id="eventTime" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Venue *</label><input type="text" id="eventVenue" placeholder="e.g. ABES Seminar Hall" required/></div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="eventCategory" required>
+              <option value="">Select...</option>
+              <option>Technical</option><option>Cultural</option><option>Sports</option><option>Workshop</option><option>Seminar</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Organizing Club</label><input type="text" id="eventClub" placeholder="e.g. IEEE SB, E-Cell"/></div>
+        <div class="form-group"><label>Description *</label><textarea id="eventDesc" required></textarea></div>
+        <div class="form-group">
+          <label>Featured Event?</label>
+          <select id="eventFeatured"><option value="no">No</option><option value="yes">Yes — show on home page</option></select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">‹</button>
+  <img id="lightboxImg" src="" alt=""/>
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">›</button>
+</div>
+
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:16px"><div class="logo-mark">AB</div><div class="logo-text"><span class="main">ABES Hub</span><span class="sub">ABES Engineering College</span></div></div>
+        <p>The official event platform of ABES Engineering College, Ghaziabad — connecting ABESians with every opportunity on campus since day one.</p>
+        <div class="footer-socials">
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="LinkedIn">💼</a>
+          <a href="#" title="YouTube">📺</a>
+          <a href="#" title="Twitter">🐦</a>
+          <a href="#" title="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <a href="#home" onclick="scrollToId('home');return false;">Home</a>
+        <a href="#about" onclick="scrollToId('about');return false;">About ABES</a>
+        <a href="#events" onclick="scrollToId('events');return false;">Events</a>
+        <a href="#clubs" onclick="scrollToId('clubs');return false;">Clubs</a>
+        <a href="#gallery" onclick="scrollToId('gallery');return false;">Gallery</a>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <a href="https://www.abes.ac.in" target="_blank">ABES Official Website</a>
+        <a href="#">AKTU Portal</a>
+        <a href="#">ERP Login</a>
+        <a href="#faq" onclick="scrollToId('faq');return false;">FAQ</a>
+        <a href="#">Contact TPC</a>
+      </div>
+      <div class="footer-col">
+        <h5>Reach Us</h5>
+        <p>📍 22nd Mile Stone, NH-24<br/>Vijay Nagar, Ghaziabad<br/>Uttar Pradesh — 201009</p>
+        <p>📧 hub@abes.ac.in</p>
+        <p>📞 +91 120-3100600</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ABES Hub · Crafted with ❤️ by ABESians · <a href="https://www.abes.ac.in" target="_blank" style="color:var(--primary-2)">abes.ac.in</a></div>
+      <div>Admin: admin / abes2026</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const LS_EVENTS='abes_events_v1', LS_REGS='abes_regs_v1', LS_AUTH='abes_auth_v1', LS_LIKES='abes_likes_v1';
+
+const IMG = {
+  tech1:'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
+  tech2:'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80',
+  tech3:'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80',
+  cult1:'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80',
+  cult2:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+  cult3:'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&q=80',
+  sport1:'https://images.unsplash.com/photo-1461896836934-ffe607ba8207?w=800&q=80',
+  sport2:'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80',
+  work1:'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80',
+  work2:'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80',
+  sem1:'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=80',
+  sem2:'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&q=80',
+  fest1:'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+  fest2:'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&q=80',
+  gal1:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
+  gal2:'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&q=80',
+  gal3:'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80',
+  gal4:'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+  gal5:'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=80',
+  gal6:'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80',
+  gal7:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+  gal8:'https://images.unsplash.com/photo-1522071820081-009f0129371c?w=800&q=80',
+  team1:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',
+  team2:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
+  team3:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80',
+  team4:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80',
+  team5:'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80',
+  team6:'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80'
+};
+
+const catImg = {
+  Technical:[IMG.tech1,IMG.tech2,IMG.tech3],
+  Cultural:[IMG.cult1,IMG.cult2,IMG.cult3,IMG.fest1,IMG.fest2],
+  Sports:[IMG.sport1,IMG.sport2],
+  Workshop:[IMG.work1,IMG.work2],
+  Seminar:[IMG.sem1,IMG.sem2]
+};
+const catEmoji={Technical:'💻',Cultural:'🎭',Sports:'🏆',Workshop:'🛠',Seminar:'🎤'};
+
+function imgFor(e){const arr=catImg[e.category]||[IMG.tech1];const i=Math.abs(hash(e.id))%arr.length;return arr[i]}
+function hash(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0}return h}
+
+const SEED_EVENTS = [
+  {id:'e1',name:'Aarohan 2026 — Techno-Cultural Fest',date:'2026-11-14',time:'09:00',venue:'ABES Main Campus',category:'Cultural',club:'Cultural Committee',desc:'ABES\'s flagship 3-day annual fest featuring hackathons, robotics, dance battles, music nights, celebrity performances, and 40+ events across tech and culture. Open to colleges across NCR.',featured:'yes'},
+  {id:'e2',name:'CodeChef ABES Chapter — Monthly Contest',date:'2026-10-18',time:'20:00',venue:'Online + CSE Lab 3',category:'Technical',club:'CodeChef ABES Chapter',desc:'Monthly competitive programming contest hosted by the CodeChef student chapter. Top 3 winners get certificates and swag. Open to all branches.',featured:'no'},
+  {id:'e3',name:'IEEE Workshop: IoT with Arduino',date:'2026-10-22',time:'10:00',venue:'ECE Department Lab',category:'Workshop',club:'IEEE Student Branch',desc:'Hands-on 2-day workshop on building IoT projects using Arduino and sensors. Kits provided. Certificates by IEEE UP Section.',featured:'no'},
+  {id:'e4',name:'Inter-Branch Cricket Tournament',date:'2026-10-28',time:'08:00',venue:'ABES Sports Ground',category:'Sports',club:'Sports Committee',desc:'Annual T20 cricket tournament featuring teams from CSE, IT, ECE, EE, ME, CE, MBA, MCA. Cheer for your branch!',featured:'no'},
+  {id:'e5',name:'E-Cell: Startup Talk with Founders',date:'2026-11-03',time:'15:00',venue:'ABES Seminar Hall',category:'Seminar',club:'E-Cell ABES',desc:'Interactive session with founders of 3 NCR-based startups. Q&A, networking, and internship opportunities for ABESians.',featured:'no'},
+  {id:'e6',name:'Robotics Club: Line Follower Build',date:'2026-11-09',time:'10:00',venue:'Mech Workshop',category:'Workshop',club:'Robotics Club',desc:'Build a line-following robot from scratch. All components provided. Teams of 3-4. Winners represent ABES at inter-college competition.',featured:'no'},
+  {id:'e7',name:' Literary Forum: Hindi Kavita Sammelan',date:'2026-11-12',time:'18:00',venue:'ABES Auditorium',category:'Cultural',club:'Literary Forum',desc:'An evening of soulful Hindi poetry featuring renowned poets and ABESian talent. Open mic session for students.',featured:'no'},
+  {id:'e8',name:'CSE Dept: AI/ML Guest Lecture',date:'2026-11-18',time:'11:00',venue:'CSE Seminar Hall',category:'Seminar',club:'CSE Department',desc:'Guest lecture by IIT Delhi professor on "Generative AI in Industry". Followed by student project showcase.',featured:'no'},
+  {id:'e9',name:'NSS: Blood Donation Camp',date:'2026-11-22',time:'09:00',venue:'ABES Central Lawn',category:'Seminar',club:'NSS ABES',desc:'Voluntary blood donation camp in collaboration with Ghaziabad Red Cross. Every donor receives a certificate and refreshments.',featured:'no'}
+];
+
+function loadEvents(){let e=localStorage.getItem(LS_EVENTS);if(!e){localStorage.setItem(LS_EVENTS,JSON.stringify(SEED_EVENTS));return SEED_EVENTS.slice()}return JSON.parse(e)}
+function saveEvents(e){localStorage.setItem(LS_EVENTS,JSON.stringify(e))}
+function loadRegs(){return JSON.parse(localStorage.getItem(LS_REGS)||'[]')}
+function saveRegs(r){localStorage.setItem(LS_REGS,JSON.stringify(r))}
+function isAuth(){return localStorage.getItem(LS_AUTH)==='1'}
+function setAuth(v){v?localStorage.setItem(LS_AUTH,'1'):localStorage.removeItem(LS_AUTH)}
+function loadLikes(){return JSON.parse(localStorage.getItem(LS_LIKES)||'[]')}
+function saveLikes(l){localStorage.setItem(LS_LIKES,JSON.stringify(l))}
+
+let events=loadEvents();
+let regs=loadRegs();
+let likes=loadLikes();
+
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+const fmtDate=d=>{const x=new Date(d+'T00:00');return x.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})};
+const fmtTime=t=>{const[h,m]=t.split(':');const hr=+h%12||12;return `${hr}:${m} ${+h<12?'AM':'PM'}`};
+function uid(){return 'e'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+
+function toast(msg,type='success'){
+  const t=document.createElement('div');
+  t.className='toast'+(type==='error'?' error':'');
+  t.innerHTML=`<span class="toast-icon">${type==='error'?'⚠️':'✅'}</span><span>${msg}</span>`;
+  $('#toastWrap').appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(120%)';t.style.transition='all .3s'},2800);
+  setTimeout(()=>t.remove(),3200);
+}
+
+function scrollToId(id){
+  const el=document.getElementById(id);
+  if(el){
+    if($('#view-home').style.display==='none')showView('home');
+    setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
+  }
+  $('#navLinks').classList.remove('open');
+}
+window.scrollToId=scrollToId;
+
+function showView(name){
+  $('#view-home').style.display=name==='home'?'block':'none';
+  $('#view-admin').style.display=name==='admin'?'block':'none';
+  $$('.nav-links a[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
+  $('#navLinks').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='home'){renderHome();renderAllEvents();}
+  if(name==='admin')renderAdmin();
+}
+$$('.nav-links a[data-view]').forEach(b=>b.onclick=e=>{e.preventDefault();showView(b.dataset.view)});
+$$('[data-scroll]').forEach(a=>a.onclick=e=>{e.preventDefault();scrollToId(a.dataset.scroll)});
+$('#hamburger').onclick=()=>$('#navLinks').classList.toggle('open');
+
+window.addEventListener('scroll',()=>{
+  $('#nav').classList.toggle('scrolled',window.scrollY>30);
+  const h=document.documentElement;
+  const pct=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+  $('#progressBar').style.width=pct+'%';
+  $('#toTop').classList.toggle('show',window.scrollY>500);
+});
+
+const revealObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)}});
+},{threshold:.12});
+function initReveals(){$$('.reveal').forEach(el=>revealObs.observe(el))}
+
+const counterObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target;const target=+el.dataset.count;
+      let cur=0;const step=Math.max(1,Math.ceil(target/60));
+      const tick=()=>{cur+=step;if(cur>=target){el.textContent=target.toLocaleString('en-IN')+(target>100?'+':'');return}el.textContent=cur.toLocaleString('en-IN');requestAnimationFrame(tick)};
+      tick();counterObs.unobserve(el);
+    }
+  });
+},{threshold:.5});
+
+const typingWords=['ABES Campus','ABESians Unite','Innovation Lives','Aarohan Awaits'];
+let twi=0,tci=0,typingDel=false;
+function typeLoop(){
+  const word=typingWords[twi];const el=$('#typingText');
+  if(!typingDel){
+    tci++;el.textContent=word.slice(0,tci);
+    if(tci===word.length){typingDel=true;setTimeout(typeLoop,1800);return}
+    setTimeout(typeLoop,90);
+  } else {
+    tci--;el.textContent=word.slice(0,tci);
+    if(tci===0){typingDel=false;twi=(twi+1)%typingWords.length;setTimeout(typeLoop,300);return}
+    setTimeout(typeLoop,45);
+  }
+}
+
+function renderHome(){
+  const featured=events.find(e=>e.featured==='yes')||events[0];
+  if(featured){
+    const regsCount=regs.filter(r=>r.eventId===featured.id).length;
+    $('#featuredBox').innerHTML=`
+      <div class="featured-wrap">
+        <div class="featured-img" style="background-image:url('${imgFor(featured)}')"></div>
+        <div class="featured-body">
+          <span class="featured-tag">⭐ ${featured.club||'Featured'} · ${featured.category}</span>
+          <h3>${featured.name}</h3>
+          <div class="featured-meta">
+            <span>📅 ${fmtDate(featured.date)}</span>
+            <span>⏰ ${fmtTime(featured.time)}</span>
+            <span>📍 ${featured.venue}</span>
+            <span>👥 ${regsCount} registered</span>
+          </div>
+          <div class="countdown" id="countdown"></div>
+          <p>${featured.desc}</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="openReg('${featured.id}')">Register Now →</button>
+            <button class="btn btn-ghost" onclick="scrollToId('events')">View All Events</button>
+          </div>
+        </div>
+      </div>`;
+    startCountdown(featured.date+'T'+featured.time);
+  } else {
+    $('#featuredBox').innerHTML=`<div class="empty"><div class="empty-icon">📭</div>No events yet.</div>`;
+  }
+}
+
+let cdInterval;
+function startCountdown(target){
+  clearInterval(cdInterval);
+  const targetMs=new Date(target).getTime();
+  const el=$('#countdown');
+  function tick(){
+    const diff=targetMs-Date.now();
+    if(diff<=0){el.innerHTML='<div style="color:var(--accent);font-weight:700">🎉 Aarohan is live!</div>';clearInterval(cdInterval);return}
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor((diff%86400000)/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    const s=Math.floor((diff%60000)/1000);
+    el.innerHTML=`
+      <div class="cd-box"><div class="cd-num">${d}</div><div class="cd-label">Days</div></div>
+      <div class="cd-box"><div class="cd-num">${String(h).padStart(2,'0')}</div><div class="cd-label">Hours</div></div>
+      <div class="cd-box"><div class="cd-num">${String(m).padStart(2,'0')}</div><div class="cd-label">Mins</div></div>
+      <div class="cd-box"><div class="cd-num">${String(s).padStart(2,'0')}</div><div class="cd-label">Secs</div></div>`;
+  }
+  tick();cdInterval=setInterval(tick,1000);
+}
+
+function eventCard(e){
+  const regsCount=regs.filter(r=>r.eventId===e.id).length;
+  const liked=likes.includes(e.id);
+  return `
+    <article class="card">
+      <div class="card-img">
+        <img src="${imgFor(e)}" alt="${e.name}" loading="lazy"/>
+        <span class="card-cat">${catEmoji[e.category]||'🎉'} ${e.category}</span>
+        <button class="card-like ${liked?'liked':''}" onclick="toggleLike('${e.id}',event)" title="Save">${liked?'❤️':'🤍'}</button>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${e.name}</h3>
+        ${e.club?`<div style="font-size:.78rem;color:var(--primary-2);font-weight:600">by ${e.club}</div>`:''}
+        <p class="card-desc">${e.desc}</p>
+        <div class="card-meta">
+          <span>📅 ${fmtDate(e.date)}</span>
+          <span>⏰ ${fmtTime(e.time)}</span>
+          <span>📍 ${e.venue}</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary btn-sm" style="flex:1" onclick="openReg('${e.id}')">Register · ${regsCount} going</button>
+        </div>
+      </div>
+    </article>`;
+}
+window.toggleLike=function(id,ev){
+  ev.stopPropagation();
+  if(likes.includes(id)){likes=likes.filter(x=>x!==id)}else{likes.push(id);toast('💖 Saved to your favorites!')}
+  saveLikes(likes);renderAllEvents();
+};
+
+function renderAllEvents(){
+  const q=($('#searchInput')?.value||'').toLowerCase().trim();
+  const cat=$('#categoryFilter')?.value||'';
+  const filtered=events.filter(e=>{
+    const matchQ=!q||e.name.toLowerCase().includes(q)||e.desc.toLowerCase().includes(q)||(e.club&&e.club.toLowerCase().includes(q));
+    const matchC=!cat||e.category===cat;
+    return matchQ&&matchC;
+  }).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const box=$('#allEventsBox');
+  if(box){
+    box.innerHTML = filtered.length
+      ? filtered.map(eventCard).join('')
+      : `<div class="empty"><div class="empty-icon">🔍</div>No events match your search.</div>`;
+  }
+}
+$('#searchInput').oninput=renderAllEvents;
+$('#categoryFilter').onchange=renderAllEvents;
+
+const CLUBS=[
+  {name:'IEEE Student Branch',emoji:'⚡',desc:'Technical society for ECE/EE students. Workshops, paper presentations, and global IEEE events.',color:'#00629B'},
+  {name:'CodeChef ABES Chapter',emoji:'💻',desc:'Competitive programming community. Weekly contests, DSA sessions, and ICPC prep.',color:'#6B4FBB'},
+  {name:'E-Cell ABES',emoji:'🚀',desc:'Entrepreneurship Cell — startup talks, B-plan competitions, and mentorship with founders.',color:'#ff7a59'},
+  {name:'Robotics Club',emoji:'🤖',desc:'Build bots, compete nationally. Arduino, Raspberry Pi, and autonomous systems.',color:'#22d39a'},
+  {name:'Cultural Committee',emoji:'🎭',desc:'Dance, music, drama, fashion — the heartbeat of Aarohan and every cultural night.',color:'#fbbf24'},
+  {name:'Sports Committee',emoji:'🏆',desc:'Cricket, football, basketball, athletics. Represent ABES at AKTU and national levels.',color:'#ef4444'},
+  {name:'Literary Forum',emoji:'📚',desc:'Debates, quizzes, poetry, and writing. For the thinkers and storytellers of ABES.',color:'#a78bfa'},
+  {name:'NSS / NCC',emoji:'🇮🇳',desc:'National Service Scheme & Corps. Social service, camps, and leadership training.',color:'#22c55e'}
+];
+function renderClubs(){
+  $('#clubsGrid').innerHTML=CLUBS.map(c=>`
+    <article class="card" style="cursor:default">
+      <div class="card-img" style="aspect-ratio:16/8;background:linear-gradient(135deg,${c.color},${c.color}99);display:grid;place-items:center;font-size:3.5rem">${c.emoji}</div>
+      <div class="card-body">
+        <h3 class="card-title">${c.name}</h3>
+        <p class="card-desc">${c.desc}</p>
+        <div class="card-actions"><button class="btn btn-ghost btn-sm" style="flex:1">Join Club →</button></div>
+      </div>
+    </article>`).join('');
+}
+
+const GALLERY_IMGS=[IMG.gal1,IMG.gal2,IMG.gal3,IMG.gal4,IMG.gal5,IMG.gal6,IMG.gal7,IMG.gal8,IMG.fest1,IMG.fest2];
+function renderGallery(){
+  $('#galleryGrid').innerHTML=GALLERY_IMGS.map((src,i)=>`<div class="gallery-item" onclick="openLightbox(${i})"><img src="${src}" alt="ABES Gallery ${i+1}" loading="lazy"/></div>`).join('');
+}
+let lbIndex=0;
+function openLightbox(i){lbIndex=i;$('#lightboxImg').src=GALLERY_IMGS[i];$('#lightbox').classList.add('open')}
+function closeLightbox(){$('#lightbox').classList.remove('open')}
+function navLightbox(d){lbIndex=(lbIndex+d+GALLERY_IMGS.length)%GALLERY_IMGS.length;$('#lightboxImg').src=GALLERY_IMGS[lbIndex]}
+window.openLightbox=openLightbox;window.closeLightbox=closeLightbox;window.navLightbox=navLightbox;
+$('#lightbox').onclick=e=>{if(e.target.id==='lightbox')closeLightbox()};
+document.addEventListener('keydown',e=>{
+  if(!$('#lightbox').classList.contains('open'))return;
+  if(e.key==='Escape')closeLightbox();
+  if(e.key==='ArrowLeft')navLightbox(-1);
+  if(e.key==='ArrowRight')navLightbox(1);
+});
+
+const TESTIMONIALS=[
+  {quote:"Aarohan through ABES Hub was seamless — from registration to getting my certificate. The hackathon I won here led to my internship at a NCR startup!",name:"Aarav Sharma",role:"CSE, 3rd Year",img:IMG.team2},
+  {quote:"As Cultural Committee head, managing 40+ events during Aarohan used to be chaos. ABES Hub made everything — registrations, schedules, announcements — beautifully simple.",name:"Sneha Gupta",role:"Cultural Committee President",img:IMG.team1},
+  {quote:"The IEEE workshop on IoT changed my career path. I'm now working on embedded systems at a top MNC. Thank you ABES and IEEE SB!",name:"Rohan Verma",role:"ECE, 4th Year (Placed)",img:IMG.team4},
+  {quote:"Inter-branch cricket on ABES ground, with live updates on the Hub — it felt like IPL! The sports committee did an amazing job.",name:"Vikram Singh",role:"ME, 2nd Year · Sports Captain",img:IMG.team6}
+];
+let testiIndex=0;
+function renderTestimonials(){
+  $('#testiSlides').innerHTML=TESTIMONIALS.map(t=>`
+    <div class="testi-slide">
+      <p class="testi-quote">${t.quote}</p>
+      <div class="testi-author">
+        <img src="${t.img}" class="testi-avatar" alt="${t.name}"/>
+        <div style="text-align:left"><div class="testi-name">${t.name}</div><div class="testi-role">${t.role}</div></div>
+      </div>
+    </div>`).join('');
+  $('#testiDots').innerHTML=TESTIMONIALS.map((_,i)=>`<div class="testi-dot ${i===0?'active':''}" onclick="goTesti(${i})"></div>`).join('');
+}
+function goTesti(i){
+  testiIndex=i;
+  $('#testiSlides').style.transform=`translateX(-${i*100}%)`;
+  $$('.testi-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+window.goTesti=goTesti;
+setInterval(()=>goTesti((testiIndex+1)%TESTIMONIALS.length),5500);
+
+const FAQS=[
+  {q:"Who can register for events on ABES Hub?",a:"All currently enrolled ABESians (B.Tech, MBA, MCA) can register. Some events like Aarohan are open to students from other colleges too — this is mentioned on the event page."},
+  {q:"Is there a registration fee?",a:"Most department events and club activities are free. Premium workshops or Aarohan passes may have a nominal fee — clearly mentioned on each event page."},
+  {q:"How do I get my participation certificate?",a:"Digital certificates are emailed to your ABES email within 7 days of the event. Physical certificates can be collected from the respective club's office."},
+  {q:"How can I start a new club at ABES?",a:"Submit a proposal with at least 25 interested members to the TPO/Faculty Advisor. Proposals are reviewed every semester. Email hub@abes.ac.in for the format."},
+  {q:"Can I propose an event for Aarohan?",a:"Yes! Event proposals for Aarohan open 4 months before the fest. Keep an eye on ABES Hub announcements or contact the Cultural Committee."},
+  {q:"I forgot my registration details. What do I do?",a:"Contact the organizing club directly, or email hub@abes.ac.in with your roll number. We'll retrieve your details within 24 hours."},
+  {q:"Is ABES Hub only for ABES students?",a:"ABES Hub is primarily for ABESians. However, open events (like Aarohan) welcome outside participants. Their registration is handled separately on the event page."}
+];
+function renderFaq(){
+  $('#faqList').innerHTML=FAQS.map((f,i)=>`
+    <div class="faq-item" data-faq="${i}">
+      <div class="faq-q" onclick="toggleFaq(${i})">${f.q}<span class="arrow">▾</span></div>
+      <div class="faq-a"><p style="padding-top:4px">${f.a}</p></div>
+    </div>`).join('');
+}
+function toggleFaq(i){$(`[data-faq="${i}"]`).classList.toggle('open')}
+window.toggleFaq=toggleFaq;
+
+$('#newsletterForm').onsubmit=e=>{
+  e.preventDefault();
+  toast('🎉 Subscribed! Check your ABES email for a welcome message.');
+  e.target.reset();
+};
+
+function openModal(id){$('#'+id).classList.add('open')}
+function closeModal(id){$('#'+id).classList.remove('open')}
+$$('[data-close]').forEach(b=>b.onclick=e=>{const m=e.target.closest('.modal-backdrop');if(m)m.classList.remove('open')});
+$$('.modal-backdrop').forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.remove('open')});
+
+function openReg(eventId){
+  const e=events.find(x=>x.id===eventId);if(!e)return;
+  $('#regModalTitle').textContent='Register: '+e.name;
+  $('#regEventId').value=eventId;
+  $('#regForm').reset();
+  openModal('regModal');
+}
+window.openReg=openReg;
+
+$('#regForm').onsubmit=e=>{
+  e.preventDefault();
+  const eventId=$('#regEventId').value;
+  const email=$('#regEmail').value.trim().toLowerCase();
+  const roll=$('#regRoll').value.trim();
+  if(regs.some(r=>r.eventId===eventId&&(r.email===email||r.roll===roll))){toast('Already registered for this event!','error');return}
+  regs.push({
+    id:'r'+Date.now(),eventId,
+    name:$('#regName').value.trim(),email,
+    phone:$('#regPhone').value.trim(),
+    dept:$('#regDept').value,
+    year:$('#regYear').value,
+    roll,
+    at:new Date().toISOString()
+  });
+  saveRegs(regs);closeModal('regModal');
+  toast('🎉 Registration successful! Jai ABES!');
+  renderAllEvents();renderHome();
+};
+
+$('#adminBtn').onclick=()=>{if(isAuth()){showView('admin')}else{openModal('loginModal')}};
+$('#loginForm').onsubmit=e=>{
+  e.preventDefault();
+  if($('#loginUser').value.trim()==='admin'&&$('#loginPass').value==='abes2026'){
+    setAuth(true);closeModal('loginModal');toast('Welcome, Admin!');showView('admin');
+  } else toast('Invalid credentials','error');
+};
+$('#logoutBtn').onclick=()=>{showView('home')};
+
+$$('.admin-tabs button').forEach(b=>b.onclick=()=>{
+  $$('.admin-tabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  $('#tab-events').style.display=b.dataset.tab==='events'?'block':'none';
+  $('#tab-registrations').style.display=b.dataset.tab==='registrations'?'block':'none';
+  if(b.dataset.tab==='registrations')renderRegs();
+});
+
+function renderAdmin(){
+  if(!isAuth()){showView('home');openModal('loginModal');return}
+  const totalRegs=regs.length;const totalEvents=events.length;
+  const upcoming=events.filter(e=>new Date(e.date)>=new Date(new Date().toDateString())).length;
+  const categories=[...new Set(events.map(e=>e.category))].length;
+  $('#statsBox').innerHTML=`
+    <div class="stat"><div class="stat-label">Total Events</div><div class="stat-value accent">${totalEvents}</div></div>
+    <div class="stat"><div class="stat-label">Upcoming</div><div class="stat-value">${upcoming}</div></div>
+    <div class="stat"><div class="stat-label">Registrations</div><div class="stat-value accent">${totalRegs}</div></div>
+    <div class="stat"><div class="stat-label">Categories</div><div class="stat-value">${categories}</div></div>`;
+  renderAdminEvents();
+  const sel=$('#regEventFilter');
+  sel.innerHTML='<option value="">All Events</option>'+events.map(e=>`<option value="${e.id}">${e.name}</option>`).join('');
+}
+
+function renderAdminEvents(){
+  const body=$('#adminEventsBody');
+  if(!events.length){body.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--muted)">No events yet</td></tr>`;return}
+  body.innerHTML=events.map(e=>{
+    const rc=regs.filter(r=>r.eventId===e.id).length;
+    return `<tr>
+      <td><strong>${e.name}</strong>${e.featured==='yes'?' <span class="badge">Featured</span>':''}${e.club?`<br><small style="color:var(--muted)">${e.club}</small>`:''}</td>
+      <td>${fmtDate(e.date)}<br><small style="color:var(--muted)">${fmtTime(e.time)}</small></td>
+      <td>${e.venue}</td>
+      <td><span class="badge">${e.category}</span></td>
+      <td>${rc}</td>
+      <td>
+        <button class="btn btn-ghost btn-sm" onclick="editEvent('${e.id}')">✏️ Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteEvent('${e.id}')">🗑 Delete</button>
+      </td></tr>`;
+  }).join('');
+}
+window.editEvent=editEvent;window.deleteEvent=deleteEvent;
+
+function editEvent(id){
+  const e=events.find(x=>x.id===id);if(!e)return;
+  $('#eventModalTitle').textContent='Edit Event';
+  $('#eventId').value=e.id;$('#eventName').value=e.name;$('#eventDate').value=e.date;
+  $('#eventTime').value=e.time;$('#eventVenue').value=e.venue;$('#eventCategory').value=e.category;
+  $('#eventClub').value=e.club||'';$('#eventDesc').value=e.desc;$('#eventFeatured').value=e.featured||'no';
+  openModal('eventModal');
+}
+function deleteEvent(id){
+  if(!confirm('Delete this event? All its registrations will also be removed.'))return;
+  events=events.filter(e=>e.id!==id);saveEvents(events);
+  regs=regs.filter(r=>r.eventId!==id);saveRegs(regs);
+  toast('Event deleted');renderAdmin();
+}
+
+$('#addEventBtn').onclick=()=>{
+  $('#eventModalTitle').textContent='Add New Event';
+  $('#eventForm').reset();$('#eventId').value='';openModal('eventModal');
+};
+$('#eventForm').onsubmit=e=>{
+  e.preventDefault();
+  const id=$('#eventId').value;
+  const data={
+    id:id||uid(),name:$('#eventName').value.trim(),date:$('#eventDate').value,
+    time:$('#eventTime').value,venue:$('#eventVenue').value.trim(),
+    category:$('#eventCategory').value,club:$('#eventClub').value.trim(),
+    desc:$('#eventDesc').value.trim(),featured:$('#eventFeatured').value
+  };
+  if(id){events=events.map(x=>x.id===id?data:x);toast('Event updated')}
+  else{events.push(data);toast('Event added')}
+  saveEvents(events);closeModal('eventModal');renderAdmin();renderAllEvents();
+};
+
+function renderRegs(){
+  const q=$('#regSearch').value.toLowerCase().trim();
+  const ev=$('#regEventFilter').value;
+  const filtered=regs.filter(r=>{
+    const e=events.find(x=>x.id===r.eventId);
+    const matchQ=!q||r.name.toLowerCase().includes(q)||r.email.includes(q)||r.roll.toLowerCase().includes(q)||(e&&e.name.toLowerCase().includes(q));
+    const matchE=!ev||r.eventId===ev;
+    return matchQ&&matchE;
+  }).sort((a,b)=>new Date(b.at)-new Date(a.at));
+  const body=$('#adminRegsBody');
+  if(!filtered.length){body.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--muted)">No registrations found</td></tr>`;return}
+  body.innerHTML=filtered.map(r=>{
+    const e=events.find(x=>x.id===r.eventId);
+    return `<tr>
+      <td><strong>${r.name}</strong><br><small style="color:var(--muted)">${r.roll}</small></td>
+      <td>${r.email}</td><td>${r.phone}</td>
+      <td>${r.dept} · ${r.year}</td>
+      <td>${e?e.name:'<em style="color:var(--muted)">Deleted</em>'}</td>
+      <td><small>${new Date(r.at).toLocaleString('en-IN')}</small></td></tr>`;
+  }).join('');
+}
+$('#regSearch').oninput=renderRegs;
+$('#regEventFilter').onchange=renderRegs;
+
+renderHome();
+renderAllEvents();
+renderClubs();
+renderGallery();
+renderTestimonials();
+renderFaq();
+initReveals();
+typeLoop();
+$$('[data-count]').forEach(el=>counterObs.observe(el));
+</script>
+</body>
+</html>
